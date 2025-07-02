@@ -176,7 +176,7 @@ type Config struct {
 	EnableMsgEvents bool
 
 	// it is actually used but a linter got confused
-	clock mclock.Clock //nolint:structcheck
+	clock mclock.Clock //nolint:staticcheck
 
 	TmpDir string
 
@@ -557,7 +557,7 @@ func (srv *Server) setupLocalNode() error {
 	}
 	sort.Sort(capsByNameAndVersion(srv.ourHandshake.Caps))
 	// Create the local node
-	db, err := enode.OpenDB(srv.quitCtx, srv.Config.NodeDatabase, srv.Config.TmpDir, srv.logger)
+	db, err := enode.OpenDB(srv.quitCtx, srv.NodeDatabase, srv.TmpDir, srv.logger)
 	if err != nil {
 		return err
 	}
@@ -777,7 +777,7 @@ func (srv *Server) doPeerOp(fn peerOpFunc) {
 // run is the main loop of the server.
 func (srv *Server) run() {
 	defer debug.LogPanic()
-	if len(srv.Config.Protocols) > 0 {
+	if len(srv.Protocols) > 0 {
 		srv.logger.Info("Started P2P networking", "version", srv.Config.Protocols[0].Version, "self", *srv.localnodeAddrCache.Load(), "name", srv.Name)
 	}
 	defer srv.loopWG.Done()

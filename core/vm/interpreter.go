@@ -134,7 +134,7 @@ type keccakState interface {
 
 // structcheck doesn't see embedding
 //
-//nolint:structcheck
+//nolint:staticcheck
 type VM struct {
 	evm *EVM
 	cfg Config
